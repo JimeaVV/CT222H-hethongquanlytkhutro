@@ -1,6 +1,10 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from controllers import hoa_don_controller, thong_ke_controller
+
+
+
 
 
 # Import router từ tầng controllers của bạn
@@ -27,6 +31,8 @@ app.include_router(phong_tro_controller.router)
 app.include_router(khach_thue_controller.router)
 app.include_router(hop_dong_controller.router)
 app.include_router(dien_nuoc_controller.router)
+app.include_router(hoa_don_controller.router)
+app.include_router(thong_ke_controller.router)
 # Route mặc định khi vào trang chủ ứng dụng (http://127.0.0.1:8000/)
 @app.get("/", tags=["Trang chủ"])
 def trang_chu():
