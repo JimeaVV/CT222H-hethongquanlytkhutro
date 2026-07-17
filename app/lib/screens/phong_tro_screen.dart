@@ -145,8 +145,13 @@ class _PhongTroScreenState extends State<PhongTroScreen> {
         ],
       )),
     );
+    await Future<void>.delayed(const Duration(milliseconds: 350));
+
     name.dispose();
     price.dispose();
-    if (result != null) await _save(result);
+
+    if (!mounted || result == null) return;
+
+    await _save(result);
   }
 }

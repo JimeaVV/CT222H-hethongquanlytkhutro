@@ -106,7 +106,16 @@ class _KhachThueScreenState extends State<KhachThueScreen> {
         FilledButton(onPressed: () { if (key.currentState!.validate()) Navigator.pop(context, KhachThue(id: item?.id ?? 0, hoTen: name.text.trim(), cccd: cccd.text.trim(), sdt: phone.text.trim(), queQuan: hometown.text.trim())); }, child: const Text('Lưu')),
       ],
     ));
-    name.dispose(); cccd.dispose(); phone.dispose(); hometown.dispose();
-    if (result != null) await _save(result);
+    await Future<void>.delayed(const Duration(milliseconds: 350));
+
+    name.dispose();
+    cccd.dispose();
+    phone.dispose();
+    hometown.dispose();
+
+    if (!mounted || result == null) return;
+
+    await _save(result);
+
   }
 }

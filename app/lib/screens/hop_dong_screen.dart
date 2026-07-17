@@ -102,11 +102,33 @@ class _HopDongScreenState extends State<HopDongScreen> {
       ]))),
       actions: [TextButton(onPressed: () => Navigator.pop(context, false), child: const Text('Hủy')), FilledButton(onPressed: () => key.currentState!.validate() ? Navigator.pop(context, true) : null, child: const Text('Lập hợp đồng'))],
     )));
-    if (saved == true) {
-      try { await widget.api.createHopDong(phongId: roomId!, nguoiDaiDienId: tenantId!, ngayBatDau: start, ngayKetThuc: end, tienCoc: double.parse(deposit.text)); if (mounted) showMessage(context, 'Đã lập hợp đồng.'); await _load(); }
-      catch (e) { if (mounted) showMessage(context, e.toString(), error: true); }
-    }
+    final depositValue = double.tryParse(deposit.text) ?? 0;
+
+    await Future<void>.delayed(const Duration(milliseconds: 350));
+
     deposit.dispose();
+
+    if (!mounted || saved != true) return;
+
+    try {
+      await widget.api.createHopDong(
+        phongId: roomId!,
+        nguoiDaiDienId: tenantId!,
+        ngayBatDau: start,
+        ngayKetThuc: end,
+        tienCoc: depositValue,
+      );
+
+      if (mounted) {
+        showMessage(context, 'Đã lập hợp đồng.');
+      }
+
+      await _load();
+    } catch (e) {
+      if (mounted) {
+        showMessage(context, e.toString(), error: true);
+      }
+    }
   }
 }
 
